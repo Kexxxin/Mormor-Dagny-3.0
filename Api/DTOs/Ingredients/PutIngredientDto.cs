@@ -2,7 +2,7 @@
 
 namespace Api.DTOs.Ingredients;
 
-public class PutIngredientDto : PostIngredientDto
+public class PutIngredientDto : BaseIngredientDto
 {
-    public required string Id { get; set; }
+    public required string IngredientName { get; set; }
 }
