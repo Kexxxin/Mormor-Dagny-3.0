@@ -11,5 +11,6 @@ public class Customer : BaseEntity
     public string? ContactPerson { get; set; }
     public required Address DeliveryAddress { get; set; }
     public required Address InvoiceAddress { get; set; }
+    public List<Order>? Orders { get; set; }
 
 }

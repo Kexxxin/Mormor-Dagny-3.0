@@ -20,6 +20,7 @@ public class MormorDagnyContext(DbContextOptions options) : DbContext
     {
         base.OnModelCreating(builder);
 
+
         builder.Entity<Customer>().OwnsOne(c => c.DeliveryAddress);
         builder.Entity<Customer>().OwnsOne(c => c.InvoiceAddress);
         builder.Entity<Order>().HasMany(c => c.OrderItems).WithOne().OnDelete(DeleteBehavior.Cascade);

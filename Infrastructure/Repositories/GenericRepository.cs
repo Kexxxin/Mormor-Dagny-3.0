@@ -1,48 +1,55 @@
 ﻿using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
 public class GenericRepository<T>(MormorDagnyContext context) : IGenericRepository<T> where T : BaseEntity
 {
-    public void add(T entity)
+    public void Add(T entity)
     {
-        throw new NotImplementedException();
+        context.Set<T>().Add(entity);
     }
-
-    public Task<int> CountAsync(ISpecification<T> spec)
-    {
-        throw new NotImplementedException();
-    }
-
     public void Delete(T entity)
     {
-        throw new NotImplementedException();
+        context.Set<T>().Remove(entity);
     }
 
-    public Task<T?> FindAsync(ISpecification<T> spec)
+    public async Task<int> CountAsync(ISpecification<T> spec)
     {
-        throw new NotImplementedException();
+        var query = context.Set<T>().AsQueryable();
+        query = spec.ApplyPredicate(query);
+        return await query.CountAsync();
     }
 
-    public Task<T?> FindByIdAsync(string id)
+
+    public async Task<T?> FindAsync(ISpecification<T> spec)
     {
-        throw new NotImplementedException();
+        return await ApplySpecification(spec).FirstOrDefaultAsync();
     }
 
-    public Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)
+    public async Task<T?> FindByIdAsync(string id)
     {
-        throw new NotImplementedException();
+        return await context.Set<T>().FindAsync(id);
     }
 
-    public Task<bool> SaveAllAsync()
+    public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)
     {
-        throw new NotImplementedException();
+        return await ApplySpecification(spec).ToListAsync();
+    }
+
+    public async Task<bool> SaveAllAsync()
+    {
+        return await context.SaveChangesAsync() > 0;
     }
 
     public void Update(T entity)
     {
-        throw new NotImplementedException();
+        context.Entry(entity).State = EntityState.Modified;
+    }
+    private IQueryable<T> ApplySpecification(ISpecification<T> spec)
+    {
+        return SpecificationValuator<T>.CreateQuery(context.Set<T>().AsQueryable(), spec);
     }
 }
