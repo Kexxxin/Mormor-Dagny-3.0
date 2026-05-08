@@ -2,7 +2,6 @@
 
 public class BaseIngredientDto
 {
+    public required string Id { get; set; }
     public required string ItemNumber { get; set; }
-
-
 }

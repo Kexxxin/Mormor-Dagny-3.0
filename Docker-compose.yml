@@ -1,0 +1,29 @@
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: PA$$W0RD
+      MYSQL_DATABASE: MormorDagnydb
+      MYSQL_USER: mormordagny
+      MYSQL_PASSWORD: PA$$W0RD
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysqldata:/var/lib/mysql
+
+  mormordagny-api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: mormordagny3-api:latest
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__mysqldev: Server=mysql;Port=3306;User=mormordagny;Password=PA$$W0RD;Database=MormorDagnydb
+    ports:
+      - "5001:8080"
+    depends_on:
+      - mysql
+
+volumes:
+  mysqldata:

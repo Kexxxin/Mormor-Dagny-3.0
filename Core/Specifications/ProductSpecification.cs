@@ -1,10 +1,12 @@
-﻿namespace Core.Specifications;
+﻿using Core.Entities;
+
+namespace Core.Specifications;
 
 public class ProductSpecification : BaseSpecification<Product>
 {
-    public ProductSpecification(ProductSpecificationParams args) : base(c =>
-        (string.IsNullOrEmpty(args.Search) || c.ProductName.ToLower().Contains(args.Search.ToLower())) &&
-        (string.IsNullOrWhiteSpace(args.ItemNumber) || (c.ItemNumber == args.ItemNumber)))
+    public ProductSpecification(ProductSpecificationParams args) : base(p =>
+        string.IsNullOrEmpty(args.Search) || p.ProductName.ToLower().Contains(args.Search.ToLower())
+        )
     {
 
         ApplyPagination(args.PageSize, args.PageSize * (args.PageNumber - 1));
@@ -12,15 +14,17 @@ public class ProductSpecification : BaseSpecification<Product>
         switch (args.Sort)
         {
             case "priceAsc":
-                UseOrderByAscending(c => c.PricePerUnit);
+                UseOrderByAscending(p => p.PricePerUnit);
                 break;
             case "priceDesc":
-                UseOrderByDescending(c => c.PricePerUnit);
+                UseOrderByDescending(p => p.PricePerUnit);
                 break;
             default:
-                UseOrderByAscending(c => c.ProductName);
+                UseOrderByAscending(p => p.ProductName);
                 break;
         }
     }
+
+    public ProductSpecification(string id) : base(p => p.Id == id) { }
 
 }

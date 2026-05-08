@@ -1,11 +1,13 @@
 ﻿using Core;
 using Core.Entities;
+using Core.Entities.Orders;
+using Core.Entities.Purchases;
 using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data;
 
-public class MormorDagnyContext(DbContextOptions options) : DbContext
+public class MormorDagnyContext(DbContextOptions options) : DbContext(options)
 {
 
     public DbSet<Product> Products { get; set; }
@@ -30,6 +32,19 @@ public class MormorDagnyContext(DbContextOptions options) : DbContext
         );
 
         builder.Entity<OrderItem>().OwnsOne(c => c.ItemOrdered, i => i.WithOwner());
+
+        builder.Entity<SupplierIngredient>(entity =>
+        {
+            entity.HasOne(si => si.Supplier)
+                .WithMany(i => i.SupplierIngredients)
+                .HasForeignKey(si => si.IngredientId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(si => si.Supplier)
+                .WithMany(s => s.SupplierIngredients)
+                .HasForeignKey(si => si.SupplierId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
     }
 
 

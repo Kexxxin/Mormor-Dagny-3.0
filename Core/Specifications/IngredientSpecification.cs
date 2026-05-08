@@ -1,24 +1,22 @@
 ﻿using Core.Entities;
+using Core.Entities.Purchases;
 
 namespace Core.Specifications;
 
 public class IngredientSpecification : BaseSpecification<Ingredient>
 {
-    public IngredientSpecification(IngredientSpecificationParams args) : base(c =>
-        (string.IsNullOrEmpty(args.Search) || c.IngredientName.ToLower().Contains(args.Search.ToLower())) &&
-        (string.IsNullOrWhiteSpace(args.ItemNumber) || (c.ItemNumber == args.ItemNumber)))
+    public IngredientSpecification(IngredientSpecificationParams args) : base(i =>
+        (string.IsNullOrEmpty(args.Search) || i.IngredientName.ToLower().Contains(args.Search.ToLower())) &&
+        (string.IsNullOrWhiteSpace(args.ItemNumber) || (i.ItemNumber == args.ItemNumber)))
     {
-
-
         ApplyPagination(args.PageSize, args.PageSize * (args.PageNumber - 1));
+        UseOrderByAscending(i => i.IngredientName);
 
-        switch (args.Sort)
-        {
-
-            default:
-                UseOrderByAscending(c => c.IngredientName);
-                break;
-        }
+    }
+    public IngredientSpecification(string id) : base(i => i.Id == id)
+    {
+        AddInclude(i => i.SupplierIngredients);
+        AddInclude("SupplierIngredient.Supplier");
     }
 
 

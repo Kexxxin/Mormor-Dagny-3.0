@@ -1,6 +1,6 @@
 ﻿namespace Api.DTOs.Suppliers;
 
-public class SupplierWithIngredientDto
+public class SupplierWithIngredientDto : BaseSupplierDto
 {
     public int IngredientId { get; set; }
     public required string IngredientName { get; set; }

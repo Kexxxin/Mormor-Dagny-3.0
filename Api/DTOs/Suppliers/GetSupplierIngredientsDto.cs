@@ -1,13 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Core.Entities;
+﻿namespace Api.DTOs.Suppliers;
 
-namespace Core;
-
-public class Supplier : BaseEntity
+public class GetSupplierIngredientsDto
 {
+    public required string Id { get; set; }
     public required string SupplierName { get; set; }
     public required string ContactPerson { get; set; }
     public required string Phone { get; set; }
     public required string Email { get; set; }
-    public List<SupplierIngredient>? SupplierIngredients { get; set; }
+    public List<SupplierWithIngredientDto>? Ingredients { get; set; } = new();
 }
