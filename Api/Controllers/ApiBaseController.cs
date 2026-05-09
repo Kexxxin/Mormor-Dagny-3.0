@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class ApiBaseController() : ControllerBase
     {
         protected async Task<ActionResult> CreatePagedResult<T, R>(IGenericRepository<T> repo,

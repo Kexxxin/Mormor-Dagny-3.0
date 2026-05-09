@@ -18,4 +18,11 @@ public class SupplierIngredientSpecification : BaseSpecification<SupplierIngredi
         AddInclude(sp => sp.Supplier);
     }
 
+    public SupplierIngredientSpecification(string supplierId, string ingredientId)
+        : base(sp => sp.SupplierId == supplierId && sp.IngredientId == ingredientId)
+    {
+        AddInclude(sp => sp.Ingredient);
+        AddInclude(sp => sp.Supplier);
+    }
+
 }

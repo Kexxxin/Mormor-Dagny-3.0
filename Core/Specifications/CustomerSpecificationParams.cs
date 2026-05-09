@@ -1,6 +1,6 @@
 ﻿namespace Core.Specifications;
 
-public class IngredientSpecificationParams : BaseSpecificationParams
+public class CustomerSpecificationParams
 {
     private const int MAX_PAGE_SIZE = 50;
     private int _pageSize = 30;
@@ -15,7 +15,7 @@ public class IngredientSpecificationParams : BaseSpecificationParams
     }
 
     public string? Sort { get; set; }
-    public string? ItemNumber { get; set; }
     public string? Search { get; set; }
+
 
 }
