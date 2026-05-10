@@ -10,11 +10,11 @@ namespace Api.Controllers;
 public class ProductsController(IUnitOfWork uow, IMapper mapper) : ControllerBase
 {
     [HttpPost]
-    public async Task<ActionResult> AddProduct(PostProductDto dto)
+    public async Task<ActionResult> AddProduct(PostProductDto model)
     {
         try
         {
-            var product = mapper.Map<Product>(dto);
+            var product = mapper.Map<Product>(model);
 
             uow.Repository<Product>().Add(product);
 
@@ -47,20 +47,21 @@ public class ProductsController(IUnitOfWork uow, IMapper mapper) : ControllerBas
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult> GetProduct(string id)
+    public async Task<ActionResult> FindProductById(string id)
     {
         try
         {
-            var product = await uow.Repository<Product>().FindByIdAsync(id);
+            var spec = new ProductSpecification(id);
+            var result = await uow.Repository<Product>().FindAsync(spec);
 
-            if (product == null)
-                return NotFound();
+            if (result == null) return NotFound("Kunde inte hitta produkten");
+            var product = mapper.Map<GetProductDto>(result);
 
             return Ok(product);
         }
         catch
         {
-            return StatusCode(500, "Ett internt fel inträffade.");
+            return StatusCode(500, "Ett server fel inträffade.");
         }
     }
 

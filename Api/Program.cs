@@ -7,12 +7,15 @@ using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("mysql");
+
 builder.Services.AddDbContext<MormorDagnyContext>(options =>
 {
-    options.UseSqlite(builder.Configuration.GetConnectionString("sqlite"));
+    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 36)));
 });
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddAutoMapper(Options =>
 {

@@ -29,7 +29,7 @@ public class IngredientsController(IUnitOfWork uow, IMapper mapper) : Controller
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult> FindIngredient(string id)
+    public async Task<ActionResult> FindIngredientById(string id)
     {
         try
         {

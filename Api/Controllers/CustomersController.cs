@@ -11,26 +11,6 @@ namespace Api.Controllers;
 
 public class CustomersController(IUnitOfWork uow, IMapper mapper) : ControllerBase
 {
-    [HttpPost]
-    public async Task<ActionResult> AddCustomer(PostCustomerDto model)
-    {
-        try
-        {
-            var customer = mapper.Map<Customer>(model);
-
-            uow.Repository<Customer>().Add(customer);
-
-            if (!await uow.Complete())
-                return BadRequest("Kunde inte spara kunden.");
-
-            return Ok(mapper.Map<GetCustomerDto>(customer));
-        }
-        catch
-        {
-            return StatusCode(500, "Ett server fel inträffade.");
-        }
-    }
-
     [HttpGet]
     public async Task<ActionResult> ListAllCustomers([FromQuery] CustomerSpecificationParams args)
     {
@@ -47,15 +27,35 @@ public class CustomersController(IUnitOfWork uow, IMapper mapper) : ControllerBa
         }
     }
 
+    [HttpPost]
+    public async Task<ActionResult> AddCustomer(PostCustomerDto model)
+    {
+        try
+        {
+            var customer = mapper.Map<Customer>(model);
+
+            uow.Repository<Customer>().Add(customer);
+
+            if (!await uow.Complete()) return BadRequest("Kunde inte spara kunden.");
+
+            return Ok(mapper.Map<GetCustomerDto>(customer));
+        }
+        catch
+        {
+            return StatusCode(500, "Ett server fel inträffade.");
+        }
+    }
+
+
     [HttpGet("{id}")]
-    public async Task<ActionResult> GetCustomer(string id)
+    public async Task<ActionResult> FindCustomerById(string id)
     {
         try
         {
             var spec = new CustomerWithOrdersSpecification(id);
             var customer = await uow.Repository<Customer>().FindAsync(spec);
 
-            if (customer == null) return NotFound("Kunde inte hitta kund");
+            if (customer == null) return NotFound("Kunde inte hitta kunden.");
 
             return Ok(mapper.Map<GetCustomerByIdDto>(customer));
         }
@@ -66,7 +66,7 @@ public class CustomersController(IUnitOfWork uow, IMapper mapper) : ControllerBa
     }
 
     [HttpPatch("{id}/contactperson")]
-    public async Task<ActionResult> UpdateCustomer(string id, PatchCustomerDto model)
+    public async Task<ActionResult> UpdateContactPersonForCustomer(string id, PatchCustomerDto model)
     {
         try
         {
@@ -77,8 +77,7 @@ public class CustomersController(IUnitOfWork uow, IMapper mapper) : ControllerBa
 
             uow.Repository<Customer>().Update(customer);
 
-            if (!await uow.Complete())
-                return BadRequest("Kunde inte uppdatera kontaktpersonen.");
+            if (!await uow.Complete()) return BadRequest("Kunde inte uppdatera kontaktpersonen.");
 
             return Ok(mapper.Map<GetCustomerDto>(customer));
         }

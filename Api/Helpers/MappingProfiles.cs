@@ -29,10 +29,8 @@ public class MappingProfiles : Profile
         CreateMap<PatchCustomerDto, Customer>();
 
         CreateMap<SupplierIngredient, SupplierWithIngredientDto>()
-               .ForMember(d => d.Id, m => m.MapFrom(s => s.SupplierId))
                .ForMember(d => d.IngredientId, m => m.MapFrom(s => s.IngredientId))
                .ForMember(d => d.IngredientName, m => m.MapFrom(s => s.Ingredient.IngredientName))
-               .ForMember(d => d.SupplierName, m => m.MapFrom(s => s.Supplier.SupplierName))
                .ForMember(d => d.PricePerKg, m => m.MapFrom(s => s.PricePerKg));
 
         CreateMap<PostSupplierDto, Supplier>();

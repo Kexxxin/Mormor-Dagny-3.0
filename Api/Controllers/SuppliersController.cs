@@ -18,13 +18,51 @@ public class SuppliersController(IUnitOfWork uow, IMapper mapper) : ApiBaseContr
 
     }
 
+    [HttpGet("{supplierId}/ingredients")]
+    public async Task<ActionResult> ListAllSupplierWithIngredientsAndPrice(string supplierId)
+    {
+        try
+        {
+            var spec = new SupplierIngredientSpecification(supplierId, bySupplier: true);
+            var supplierIngredients = await uow.Repository<SupplierIngredient>().ListAsync(spec);
+
+            if (supplierIngredients == null || supplierIngredients.Count == 0)
+                return NotFound("Något gick fel vid hämtning");
+
+            var supplier = supplierIngredients.First().Supplier;
+
+            var model = new GetSupplierIngredientsDto
+            {
+                Id = supplier.Id,
+                SupplierName = supplier.SupplierName,
+                ContactPerson = supplier.ContactPerson,
+                Email = supplier.Email,
+                Phone = supplier.Phone,
+                Ingredients = supplierIngredients.Select(sp => new SupplierWithIngredientDto
+                {
+                    IngredientId = sp.IngredientId,
+                    IngredientName = sp.Ingredient.IngredientName,
+                    Description = sp.Ingredient.Description,
+                    PricePerKg = sp.PricePerKg
+                }).ToList()
+            };
+
+            return Ok(model);
+        }
+        catch
+        {
+            return StatusCode(500, "Ett serverfel inträffade.");
+        }
+    }
+
+
     [HttpGet("{id}")]
     public async Task<ActionResult> GetSupplierById(string id)
     {
         var spec = new SupplierByIdSpecification(id);
         var supplier = await uow.Repository<Supplier>().FindAsync(spec);
 
-        if (supplier == null) return NotFound();
+        if (supplier == null) return NotFound("Kunde inte hitta leverantören");
 
         return Ok(supplier);
     }

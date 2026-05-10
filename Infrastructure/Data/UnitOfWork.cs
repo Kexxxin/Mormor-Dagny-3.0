@@ -28,7 +28,7 @@ public class UnitOfWork(MormorDagnyContext context) : IUnitOfWork
             var repoType = typeof(GenericRepository<>).MakeGenericType(typeof(TEntity));
 
             return Activator.CreateInstance(repoType, context) ??
-                throw new InvalidOperationException($"Någonting gick fel vid skapandet av instansen");
+                throw new InvalidOperationException($"Någonting gick fel");
         });
     }
 }

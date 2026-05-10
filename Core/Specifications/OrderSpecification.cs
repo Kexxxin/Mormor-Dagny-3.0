@@ -8,7 +8,6 @@ public class OrderSpecification : BaseSpecification<Order>
         : base(o => o.Id == id)
     {
         AddInclude(o => o.OrderItems);
-        AddInclude(o => o.OrderNumber);
         AddInclude(o => o.Customer);
         AddInclude("OrderItems.ItemOrdered");
         AddInclude("OrderItems.ItemOrdered.Product");
@@ -21,7 +20,6 @@ public class OrderSpecification : BaseSpecification<Order>
         )
     {
         AddInclude(o => o.OrderItems);
-        AddInclude(o => o.OrderNumber);
         AddInclude(o => o.Customer);
         AddInclude("OrderItems.ItemOrdered");
         AddInclude("OrderItems.ItemOrdered.Product");
