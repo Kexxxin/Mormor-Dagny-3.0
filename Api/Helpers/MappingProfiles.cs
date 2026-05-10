@@ -37,13 +37,16 @@ public class MappingProfiles : Profile
         CreateMap<Supplier, GetSupplierDto>();
 
         CreateMap<Supplier, GetSupplierIngredientsDto>()
-            .ForMember(d => d.Ingredients, m => m.MapFrom(s => s.SupplierIngredients));
+                .ForMember(d => d.Ingredients, m => m.MapFrom(s => s.SupplierIngredients));
 
         CreateMap<Ingredient, GetIngredientDto>()
                .ForMember(d => d.Suppliers, m => m.MapFrom(s => s.SupplierIngredients));
 
         CreateMap<PutIngredientDto, Ingredient>();
         CreateMap<PostIngredientDto, Ingredient>();
+        CreateMap<Order, OrderTotalDto>()
+            .ForMember(d => d.Items,
+            m => m.MapFrom(s => s.OrderItems));
 
         CreateMap<Order, GetOrdersDto>()
                 .ForMember(d => d.CustomerName, m => m.MapFrom(s => s.Customer.CompanyName))
@@ -54,10 +57,12 @@ public class MappingProfiles : Profile
 
 
         CreateMap<OrderItem, GetOrderItemDto>()
-                .ForMember(d => d.ProductName, m => m.MapFrom(s => s.ItemOrdered.ProductName))
-                .ForMember(d => d.Price, m => m.MapFrom(s => s.Price))
-                .ForMember(d => d.Quantity, m => m.MapFrom(s => s.Quantity))
-                .ForMember(d => d.SubTotal, m => m.MapFrom(s => s.Price * s.Quantity));
+            .ForMember(d => d.ProductName, m => m.MapFrom(s => s.ItemOrdered.ProductName))
+            .ForMember(d => d.Price, m => m.MapFrom(s => s.Price))
+            .ForMember(d => d.Quantity, m => m.MapFrom(s => s.Quantity))
+            .ForMember(d => d.SubTotal, m => m.MapFrom(s => s.Price * s.Quantity));
+
+
 
 
     }

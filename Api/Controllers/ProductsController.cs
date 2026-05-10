@@ -35,8 +35,7 @@ public class ProductsController(IUnitOfWork uow, IMapper mapper) : ControllerBas
         try
         {
             var spec = new ProductSpecification(args);
-            var result = await uow.Repository<Product>().ListAsync(spec);
-            var products = mapper.Map<IReadOnlyList<GetProductDto>>(result);
+            var products = await uow.Repository<Product>().ListAsync(spec);
 
             return Ok(mapper.Map<IReadOnlyList<GetProductDto>>(products));
         }

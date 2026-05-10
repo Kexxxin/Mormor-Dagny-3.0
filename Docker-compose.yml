@@ -2,12 +2,12 @@ services:
   mysql:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: PA$$W0RD
+      MYSQL_ROOT_PASSWORD: Kulle12345
       MYSQL_DATABASE: MormorDagnydb
       MYSQL_USER: mormordagny
-      MYSQL_PASSWORD: PA$$W0RD
+      MYSQL_PASSWORD: Kulle12345
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mysqldata:/var/lib/mysql
 
@@ -19,7 +19,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:8080
-      ConnectionStrings__mysqldev: Server=mysql;Port=3306;User=mormordagny;Password=PA$$W0RD;Database=MormorDagnydb
+      ConnectionStrings__mysqldev: Server=mysql;Port=3306;User=mormordagny;Password=Kulle12345;Database=MormorDagnydb
     ports:
       - "5001:8080"
     depends_on:

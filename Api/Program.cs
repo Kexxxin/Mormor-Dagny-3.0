@@ -11,7 +11,8 @@ var connectionString = builder.Configuration.GetConnectionString("mysql");
 
 builder.Services.AddDbContext<MormorDagnyContext>(options =>
 {
-    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 36)));
+    var cs = builder.Configuration.GetConnectionString("mysql");
+    options.UseMySql(cs, ServerVersion.AutoDetect(cs));
 });
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

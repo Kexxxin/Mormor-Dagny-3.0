@@ -6,4 +6,5 @@ public class OrderTotalDto
     public DateTime OrderDate { get; set; }
     public string OrderNumber { get; set; } = null!;
     public decimal SubTotal { get; set; }
+    public List<GetOrderItemDto> Items { get; set; } = [];
 }

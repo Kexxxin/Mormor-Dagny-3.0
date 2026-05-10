@@ -1,6 +1,4 @@
-﻿using Api.DTOs.Orders;
-
-namespace Api;
+﻿namespace Api.DTOs.Orders;
 
 public class GetOrdersDto
 {

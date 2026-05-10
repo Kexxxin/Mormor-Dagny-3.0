@@ -8,7 +8,8 @@ public class CustomerWithOrdersSpecification : BaseSpecification<Customer>
     {
         AddInclude(c => c.Orders);
         AddInclude("Orders.OrderItems");
-        AddInclude("Orders.OrderItems.Product");
+        AddInclude("Orders.OrderItems.ItemOrdered");
+        AddInclude("Orders.OrderItems.ItemOrdered.Product");
         AddInclude(c => c.InvoiceAddress);
         AddInclude(c => c.DeliveryAddress);
 

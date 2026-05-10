@@ -37,7 +37,7 @@ public class MormorDagnyContext(DbContextOptions<MormorDagnyContext> options) : 
 
         builder.Entity<SupplierIngredient>(entity =>
         {
-            entity.HasOne(si => si.Supplier)
+            entity.HasOne(si => si.Ingredient)
                 .WithMany(i => i.SupplierIngredients)
                 .HasForeignKey(si => si.IngredientId)
                 .OnDelete(DeleteBehavior.Cascade);
@@ -48,6 +48,7 @@ public class MormorDagnyContext(DbContextOptions<MormorDagnyContext> options) : 
                 .OnDelete(DeleteBehavior.Cascade);
         });
     }
+
 
 
 }
