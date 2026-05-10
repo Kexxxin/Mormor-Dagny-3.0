@@ -91,7 +91,7 @@ public class SuppliersController(IUnitOfWork uow, IMapper mapper) : ApiBaseContr
         }
         catch
         {
-            return StatusCode(500, "Ett server fel inträffade.");
+            return StatusCode(500, "Ett serverfel inträffade.");
         }
     }
 
@@ -116,7 +116,7 @@ public class SuppliersController(IUnitOfWork uow, IMapper mapper) : ApiBaseContr
         }
         catch
         {
-            return StatusCode(500, "Ett server fel inträffade.");
+            return StatusCode(500, "Ett serverfel inträffade.");
         }
     }
 

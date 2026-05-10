@@ -25,7 +25,7 @@ public class ProductsController(IUnitOfWork uow, IMapper mapper) : ControllerBas
         }
         catch
         {
-            return StatusCode(500, "Ett server fel inträffade.");
+            return StatusCode(500, "Ett serverfel inträffade.");
         }
     }
 
@@ -41,7 +41,7 @@ public class ProductsController(IUnitOfWork uow, IMapper mapper) : ControllerBas
         }
         catch
         {
-            return StatusCode(500, "Ett server fel inträffade.");
+            return StatusCode(500, "Ett serverfel inträffade.");
         }
     }
 
@@ -60,7 +60,7 @@ public class ProductsController(IUnitOfWork uow, IMapper mapper) : ControllerBas
         }
         catch
         {
-            return StatusCode(500, "Ett server fel inträffade.");
+            return StatusCode(500, "Ett serverfel inträffade.");
         }
     }
 
@@ -84,7 +84,7 @@ public class ProductsController(IUnitOfWork uow, IMapper mapper) : ControllerBas
         }
         catch
         {
-            return StatusCode(500, "Ett server fel inträffade.");
+            return StatusCode(500, "Ett serverfel inträffade.");
         }
     }
 }

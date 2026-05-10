@@ -24,7 +24,7 @@ public class IngredientsController(IUnitOfWork uow, IMapper mapper) : Controller
         }
         catch
         {
-            return StatusCode(500, "Ett server fel inträffade.");
+            return StatusCode(500, "Ett serverfel inträffade.");
         }
     }
 
@@ -42,7 +42,7 @@ public class IngredientsController(IUnitOfWork uow, IMapper mapper) : Controller
         }
         catch
         {
-            return StatusCode(500, "Ett server fel inträffade.");
+            return StatusCode(500, "Ett serverfel inträffade.");
         }
     }
 }
